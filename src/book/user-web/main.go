@@ -1,8 +1,8 @@
 package main
 
 import (
-	"book/user-web/basic"
-	"book/user-web/basic/config"
+	"book/basic"
+	"book/basic/config"
 	"book/user-web/handler"
 	"fmt"
 	"github.com/micro/cli"
@@ -37,11 +37,10 @@ func main() {
 
 	// 注册登录接口
 	service.HandleFunc("/user/login", handler.Login)
+
+	service.HandleFunc("/user/logout", handler.Logout)
 	// register html handler
 	service.Handle("/", http.FileServer(http.Dir("html")))
-
-	// register call handler
-	service.HandleFunc("/user/call", handler.UserCall)
 
 	// run service
 	if err := service.Run(); err != nil {

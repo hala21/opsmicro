@@ -1,7 +1,7 @@
 package db
 
 import (
-	"book/user-srv/basic/config"
+	"book/basic/config"
 	"database/sql"
 	"log"
 )

@@ -1,0 +1,11 @@
+app:
+  redis:
+    enabled: true
+    conn: 192.168.1.121:6379
+    dbNum: 8
+    password:
+    timeout: 3000
+    sentinel:
+      enabled: false
+      master: bookMaster
+      nodes: 192.168.1.121:6379

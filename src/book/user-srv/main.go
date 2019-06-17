@@ -1,8 +1,8 @@
 package main
 
 import (
-	"book/user-srv/basic"
-	"book/user-srv/basic/config"
+	"book/basic"
+	"book/basic/config"
 	"book/user-srv/handler"
 	"book/user-srv/model"
 	"fmt"

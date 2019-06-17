@@ -1,7 +1,7 @@
 package db
 
 import (
-	"book/user-srv/basic/config"
+	"book/basic/config"
 	"database/sql"
 	"fmt"
 	"github.com/go-log/log"
@@ -30,6 +30,7 @@ func Init() {
 	if config.GetMysqlConfig().GetEnabled() {
 		initMysql()
 	}
+	//
 
 	inited = true
 }

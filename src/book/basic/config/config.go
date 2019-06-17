@@ -15,6 +15,9 @@ var (
 	defaultRootPath         = "app"
 	defaultConfigFilePrefix = "application-"
 	consulConfig            defaultConsulConfig
+	mysqlConfig             defaultMysqlConfig
+	redisConfig             defaultRedisConfig
+	jwtConfig               defaultJwtConfig
 	profiles                defaultProfiles
 	m                       sync.RWMutex
 	inited                  bool
@@ -27,8 +30,6 @@ func Init() {
 
 	if inited {
 		log.Logf("[Init] 已经初始化过了")
-
-		return
 	}
 
 	// 加载yaml，基础配置
@@ -65,12 +66,27 @@ func Init() {
 
 	// 赋值
 	config.Get(defaultRootPath, "consul").Scan(&consulConfig)
+	config.Get(defaultRootPath, "mysql").Scan(&mysqlConfig)
+	config.Get(defaultRootPath, "redis").Scan(&redisConfig)
+	config.Get(defaultRootPath, "jwt").Scan(&jwtConfig)
 
 	// 标记已经初始化
 	inited = true
 
 }
 
+func GetMysqlConfig() (ret MysqlConfig) {
+	return mysqlConfig
+}
+
 func GetConsulConfig() (ret ConsulConfig) {
 	return consulConfig
+}
+
+func GetRedisConfig() (ret RedisConfig) {
+	return redisConfig
+}
+
+func GetJwtConfig() (ret JwtConfig) {
+	return jwtConfig
 }
