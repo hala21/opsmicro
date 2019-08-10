@@ -19,10 +19,10 @@ type service struct {
 type Service interface {
 	MakeAccessToken(subject *Subject) (ret string, err error)
 	GetCachedAccessToken(subject *Subject) (ret string, err error)
-	DelUserAccessToken(token string) (err error)
+	DelUserAccessToken(string) (err error)
 }
 
-func GetService() (Service, error) {
+func GetService() (Servictokene, error) {
 	if s == nil {
 		return nil, fmt.Errorf("[GetService] GetServices未初始化！")
 	}

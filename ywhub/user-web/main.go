@@ -1,9 +1,6 @@
 package main
 
 import (
-	"book/basicbook/basic"
-	"book/basic/config"
-	"book/user-web/handler"
 	"fmt"
 	"github.com/micro/cli"
 	"github.com/micro/go-micro/registry"
@@ -11,6 +8,9 @@ import (
 	"github.com/micro/go-micro/util/log"
 	"github.com/micro/go-micro/web"
 	"net/http"
+	"opsmicro/ywhub/basic"
+	"opsmicro/ywhub/basic/config"
+	"opsmicro/ywhub/user-web/handler"
 	"time"
 )
 

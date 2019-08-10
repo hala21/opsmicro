@@ -4,10 +4,10 @@ package handler
 用户模型服务很简单，就是像数据库获取用户信息被返回给调用者
 */
 import (
-	us "book/user-srv/model/user"
-	s "book/user-srv/proto/user"
 	"context"
 	"github.com/micro/go-micro/util/log"
+	us "opsmicro/src/book/user-srv/model/user"
+	s "opsmicro/src/book/user-srv/proto/user"
 )
 
 type Service struct{}
