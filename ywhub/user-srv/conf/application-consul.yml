@@ -1,0 +1,5 @@
+app:
+  consul:
+    enabled: true
+    host: 39.109.123.190
+    port: 8500

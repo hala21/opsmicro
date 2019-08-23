@@ -1,9 +1,9 @@
 package basic
 
 import (
-	"book/basic/config"
-	"book/basic/db"
-	"book/basic/redis"
+	"opsmicro/ywhub/basic/config"
+	"opsmicro/ywhub/basic/db"
+	"opsmicro/ywhub/basic/redis"
 )
 
 func Init() {

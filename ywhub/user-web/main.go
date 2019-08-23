@@ -20,7 +20,7 @@ func main() {
 	micReg := consul.NewRegistry(registryOptions)
 	// create new web service
 	service := web.NewService(
-		web.Name("demo.micro.book.web.user"),
+		web.Name("ywhub.micro.v1.basic.web.user"),
 		web.Registry(micReg),
 		web.Address(":8088"),
 		web.Version("latest"),

@@ -143,3 +143,26 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+// Register
+func Register(w http.ResponseWriter, r *http.Request) {
+
+	//判断POST方法
+	if r.Method != "POST" {
+		log.Logf("非法请求")
+		http.Error(w, "非法请求", 400)
+		return
+	}
+	_ = r.ParseForm()
+	username := r.Form.Get("username")
+	passwd := r.Form.Get("password")
+	email := r.Form.Get("email")
+	nike := r.Form.Get("nike")
+
+	// 1.确认用户名是否唯一
+
+	// 假如不存在的话，信息写入数据库
+
+	// 获取token信息跳转到dashbord
+
+}
