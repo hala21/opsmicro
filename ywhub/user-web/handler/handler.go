@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/util/log"
 	"net/http"
@@ -54,18 +55,18 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		"ref": time.Now().UnixNano(),
 	}
 
-	if rsp.User.Pwd == r.Form.Get("pwd") {
+	if rsp.User.Password == r.Form.Get("pwd") {
 		response["success"] = rsp.Success
 
 		// 干掉密码返回
-		rsp.User.Pwd = ""
+		rsp.User.Password = ""
 		response["data"] = rsp.User
 		log.Logf("[Login] 密码校验完成，生成token...")
 
 		// 生成token
 		rsp2, err := authClient.MakeAccessToken(context.TODO(), &auth.Request{
-			UserId:   uint64(rsp.User.Id),
-			UserName: rsp.User.Name,
+			UserId:   rsp.User.Id,
+			UserName: rsp.User.Username,
 		})
 		if err != nil {
 			log.Logf("[Login] 创建token失败，err：%s", err)
@@ -160,6 +161,16 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	nike := r.Form.Get("nike")
 
 	// 1.确认用户名是否唯一
+	rsp, err := serviceClient.QueryUserByName(context.TODO(), &us.Request{UserName: r.Form.Get(username)})
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+	}
+
+	fmt.Printf("%v", rsp)
+	if rsp.User != nil {
+
+	}
 
 	// 假如不存在的话，信息写入数据库
 
