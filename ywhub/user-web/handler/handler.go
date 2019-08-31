@@ -160,14 +160,14 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	email := r.Form.Get("email")
 	nike := r.Form.Get("nike")
 
-	// 1.确认用户名是否唯一
+	// 1.确认用户名是否唯一)
 	rsp, err := serviceClient.QueryUserByName(context.TODO(), &us.Request{UserName: r.Form.Get(username)})
 
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
 
-	fmt.Printf("%v", rsp)
+	fmt.Printf("%v", rsp
 	if rsp.User != nil {
 
 	}
