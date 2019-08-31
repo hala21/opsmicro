@@ -169,7 +169,18 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("%v", rsp
 	if rsp.User != nil {
-
+		w.Header().Add("Content-Type", "application/json; charset=utf-8")
+		// 返回结果
+		response := map[string]interface{}{
+			"ref":     time.Now().UnixNano(),
+			"message": "用户已经存在，请重新考虑个靓名",
+		}
+		// 返回JSON结构
+		if err := json.NewEncoder(w).Encode(response); err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		return
 	}
 
 	// 假如不存在的话，信息写入数据库

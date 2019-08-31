@@ -17,6 +17,7 @@ type service struct {
 
 type Service interface {
 	QueryUserByName(userName string) (resp *user.User, err error)
+	CreateNewUser(userName string, password string, email string) (resp *user.User, err error)
 }
 
 func GetService() (Service, error) {

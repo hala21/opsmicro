@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
-	_ "opsmicro/ywhub/user-srv/handler"
 	"opsmicro/ywhub/user-srv/subscriber"
 )
 
