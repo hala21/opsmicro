@@ -155,20 +155,20 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	_ = r.ParseForm()
-	username := r.Form.Get("username")
-	passwd := r.Form.Get("password")
+	userName := r.Form.Get("username")
+	password := r.Form.Get("password")
 	email := r.Form.Get("email")
-	nike := r.Form.Get("nike")
+	//nike := r.Form.Get("nike")
 
 	// 1.确认用户名是否唯一)
-	rsp, err := serviceClient.QueryUserByName(context.TODO(), &us.Request{UserName: r.Form.Get(username)})
+	rspUser, err := serviceClient.QueryUserByName(context.TODO(), &us.Request{UserName: userName})
 
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
 
-	fmt.Printf("%v", rsp
-	if rsp.User != nil {
+	fmt.Printf("%v", rspUser.Success)
+	if rspUser.User != nil {
 		w.Header().Add("Content-Type", "application/json; charset=utf-8")
 		// 返回结果
 		response := map[string]interface{}{
@@ -184,6 +184,10 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 假如不存在的话，信息写入数据库
+	response, err := serviceClient.CreateNewUser(context.TODO(), &us.Request{UserName: userName, UserPwd: password, Email: email})
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+	}
 
 	// 获取token信息跳转到dashbord
 
