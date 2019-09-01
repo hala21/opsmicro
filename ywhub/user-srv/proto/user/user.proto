@@ -5,14 +5,17 @@ package ywhub.micro.v1.basic.srv.user;
 service User {
 	rpc QueryUserByName (Request) returns (Response) {
 	}
+	rpc CreateNewUser (Request) returns (Response) {
+	}
 }
 
 message user {
 	int64 id = 1;
 	string username = 2;
 	string password = 3;
-	uint64 createTime = 4;
-	uint64 updateTime = 5;
+	string email = 4;
+	uint64 createTime = 5;
+	uint64 updateTime = 6;
 }
 
 message Error {
@@ -24,6 +27,7 @@ message Request {
 	string userID = 1;
 	string userName = 2;
 	string userPwd = 3;
+	string email = 4;
 }
 
 message Response {
