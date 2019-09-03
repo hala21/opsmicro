@@ -189,6 +189,39 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 	}
 
+	response["success"] = rsp.Success
+
+	// 干掉密码返回
+	rsp.User.Password = ""
+	response["data"] = rsp.User
+
+	// 生成token
+	rsp2, err := authClient.MakeAccessToken(context.TODO(), &auth.Request{
+		UserId:   rsp.User.Id,
+		UserName: rsp.User.Username,
+	})
+	if err != nil {
+		log.Logf("[Login] 创建token失败，err：%s", err)
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	log.Logf("[Login] token %s", rsp2.Token)
+	response["token"] = rsp2.Token
+
+	// 同时将token写到cookies中
+	w.Header().Add("set-cookie", "application/json; charset=utf-8")
+	// 过期30分钟
+	expire := time.Now().Add(30 * time.Minute)
+	cookie := http.Cookie{Name: "remember-me-token", Value: rsp2.Token, Path: "/", Expires: expire, MaxAge: 90000}
+	http.SetCookie(w, &cookie)
+
+	w.Header().Add("Content-Type", "application/json; charset=utf-8")
+	// 返回JSON结构
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
 	// 获取token信息跳转到dashbord
 
 }
