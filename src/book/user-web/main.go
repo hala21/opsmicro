@@ -1,7 +1,7 @@
 package main
 
 import (
-	"book/basicbook/basic"
+	"opsmicro/src/book/basicbook/basic"
 	"book/basic/config"
 	"book/user-web/handler"
 	"fmt"

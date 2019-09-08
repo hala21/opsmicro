@@ -27,18 +27,21 @@ func main() {
 	)
 
 	// initialise service
-	if err := service.Init(web.Action(
-		func(c *cli.Context) {
-			// 初始化handler
-			handler.Init()
-		})); err != nil {
+	if err := service.Init(
+		web.Action(
+			func(c *cli.Context) {
+				// 初始化handler
+				handler.Init()
+			}),
+	); err != nil {
 		log.Fatal(err)
 	}
 
 	// 注册登录接口
-	service.HandleFunc("/user/login", handler.Login)
+	service.HandleFunc("/micro-api/v1/auth/login", handler.Login)
+	service.HandleFunc("/micro-api/v1/auth/logout", handler.Logout)
+	service.HandleFunc("/micro-api/v1/auth/register", handler.Register)
 
-	service.HandleFunc("/user/logout", handler.Logout)
 	// register html handler
 	service.Handle("/", http.FileServer(http.Dir("html")))
 

@@ -38,7 +38,7 @@ func Init() {
 	os.Chdir(appPath)
 
 	// 找到application.yaml 文件
-	if err := config.Load(file.NewSource(file.WithPath(pt + sp + "application.yaml"))); err != nil {
+	if err := config.Load(file.NewSource(file.WithPath(pt + sp + "application.yml"))); err != nil {
 		panic(err)
 	}
 
@@ -46,7 +46,7 @@ func Init() {
 	if err := config.Get(defaultRootPath, "profiles").Scan(&profiles); err != nil {
 		panic(err)
 	}
-	log.Logf("[Init] 加载配置文件：path: %s %+v\n", pt+sp+"application.yaml", profiles)
+	log.Logf("[Init] 加载配置文件：path: %s %+v\n", pt+sp+"application.yml", profiles)
 
 	// 开始导入新文件
 	if len(profiles.GetInclude()) > 0 {

@@ -46,14 +46,14 @@ func Init() {
 	if err := config.Get(defaultRootPath, "profiles").Scan(&profiles); err != nil {
 		panic(err)
 	}
-	log.Logf("[Init] 加载配置文件：path: %s %+v\n", pt+sp+"application.yaml", profiles)
+	log.Logf("[Init] 加载配置文件：path: %s %+v\n", pt+sp+"application.yml", profiles)
 
 	// 开始导入新文件
 	if len(profiles.GetInclude()) > 0 {
 		include := strings.Split(profiles.GetInclude(), ",")
 		sources := make([]source.Source, len(include))
 		for i := 0; i < len(include); i++ {
-			filePath := pt + string(filepath.Separator) + defaultConfigFilePrefix + strings.TrimSpace(include[i]) + ".yaml"
+			filePath := pt + string(filepath.Separator) + defaultConfigFilePrefix + strings.TrimSpace(include[i]) + ".yml"
 			log.Logf("[Init] 加载配置文件：ppath: %s\n", filePath)
 			sources[i] = file.NewSource(file.WithPath(filePath))
 		}

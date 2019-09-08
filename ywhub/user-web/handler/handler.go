@@ -23,6 +23,15 @@ type Error struct {
 	Detail string `json:"detail"`
 }
 
+type UserInfo struct {
+	UserName        string `json:"userName,omitempty" `
+	FullName        string `json:"fullName,omitempty"`
+	Email           string `json:"email,omitempty"`
+	Password        string `json:"password, omitempty"`
+	ConfirmPassword string `json:"confirmPassword, omitempty"`
+	Terms           string `json:"terms, omitempty"`
+}
+
 func Init() {
 	serviceClient = us.NewUserService("ywhub.micro.v1.basic.srv.user", client.DefaultClient)
 
@@ -137,12 +146,23 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		"ref":     time.Now().UnixNano(),
 		"success": true,
 	}
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Headers", "Authorization")
+	w.Header().Add("Access-Control-Expose-Headers", "Authorization")
 
 	// 返回JSON结构
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}
+}
+
+type reg struct {
+	fullName        string
+	password        string
+	email           string
+	confirmPassword string
+	terms           bool
 }
 
 // Register
@@ -154,11 +174,28 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "非法请求", 400)
 		return
 	}
-	_ = r.ParseForm()
-	userName := r.Form.Get("username")
+	//r.ParseForm()
+	//fmt.Printf("%v", r.PostForm
+	//for k, v :=range(){
+	//	print(k,  v)
+	//}
+
+	//var reg reg
+	buf := make([]byte, 1024)
+	n, _ := r.Body.Read(buf)
+	//println(string(buf[0:n]))
+	var userInfo UserInfo
+	err := json.Unmarshal(buf[0:n], &userInfo)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Print(userInfo)
+
+	userName := r.Form.Get("fullName")
 	password := r.Form.Get("password")
 	email := r.Form.Get("email")
 	//nike := r.Form.Get("nike")
+	print(email)
 
 	// 1.确认用户名是否唯一)
 	rspUser, err := serviceClient.QueryUserByName(context.TODO(), &us.Request{UserName: userName})
@@ -184,21 +221,23 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 假如不存在的话，信息写入数据库
-	response, err := serviceClient.CreateNewUser(context.TODO(), &us.Request{UserName: userName, UserPwd: password, Email: email})
+	respCreate, err := serviceClient.CreateNewUser(context.TODO(), &us.Request{UserName: userName, UserPwd: password, Email: email})
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
-
-	response["success"] = rsp.Success
+	response := map[string]interface{}{
+		"ref": time.Now().UnixNano(),
+	}
+	response["success"] = true
 
 	// 干掉密码返回
-	rsp.User.Password = ""
-	response["data"] = rsp.User
+	respCreate.User.Password = ""
+	response["data"] = respCreate.User
 
 	// 生成token
 	rsp2, err := authClient.MakeAccessToken(context.TODO(), &auth.Request{
-		UserId:   rsp.User.Id,
-		UserName: rsp.User.Username,
+		UserId:   respCreate.User.Id,
+		UserName: respCreate.User.Username,
 	})
 	if err != nil {
 		log.Logf("[Login] 创建token失败，err：%s", err)
