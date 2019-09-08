@@ -29,7 +29,7 @@ type UserInfo struct {
 	Email           string `json:"email,omitempty"`
 	Password        string `json:"password, omitempty"`
 	ConfirmPassword string `json:"confirmPassword, omitempty"`
-	Terms           string `json:"terms, omitempty"`
+	Terms           bool   `json:"terms, omitempty"`
 }
 
 func Init() {
@@ -174,11 +174,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "非法请求", 400)
 		return
 	}
-	//r.ParseForm()
-	//fmt.Printf("%v", r.PostForm
-	//for k, v :=range(){
-	//	print(k,  v)
-	//}
 
 	//var reg reg
 	buf := make([]byte, 1024)
@@ -191,21 +186,15 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Print(userInfo)
 
-	userName := r.Form.Get("fullName")
-	password := r.Form.Get("password")
-	email := r.Form.Get("email")
-	//nike := r.Form.Get("nike")
-	print(email)
-
 	// 1.确认用户名是否唯一)
-	rspUser, err := serviceClient.QueryUserByName(context.TODO(), &us.Request{UserName: userName})
+	rspUser, err := serviceClient.QueryUserByName(context.TODO(), &us.Request{UserName: userInfo.FullName})
 
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
 
-	fmt.Printf("%v", rspUser.Success)
-	if rspUser.User != nil {
+	fmt.Printf("%v", rspUser)
+	if rspUser != nil {
 		w.Header().Add("Content-Type", "application/json; charset=utf-8")
 		// 返回结果
 		response := map[string]interface{}{
@@ -221,7 +210,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 假如不存在的话，信息写入数据库
-	respCreate, err := serviceClient.CreateNewUser(context.TODO(), &us.Request{UserName: userName, UserPwd: password, Email: email})
+	respCreate, err := serviceClient.CreateNewUser(context.TODO(), &us.Request{UserName: userInfo.FullName, UserPwd: userInfo.Password, Email: userInfo.Email})
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
