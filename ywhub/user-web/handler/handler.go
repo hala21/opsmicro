@@ -190,6 +190,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	rspUser, err := serviceClient.QueryUserByName(context.TODO(), &us.Request{UserName: userInfo.FullName})
 
 	if err != nil {
+		fmt.Printf("%v", err.Error())
 		http.Error(w, err.Error(), 500)
 	}
 
