@@ -35,7 +35,7 @@ func main() {
 	}))
 
 	// Register Handler
-	_ = user.RegisterUserHandler(service.Server(), new(handler.User))
+	user.RegisterUserHandler(service.Server(), new(handler.User))
 
 	// Register Struct as Subscriber
 	//micro.RegisterSubscriber("ywhub.micro.basic.srv.user.srv.user", service.Server(), new(subscriber.User))

@@ -29,6 +29,7 @@ func (s *service) CreateNewUser(userName string, password string, email string) 
 		log.Logf("[CreateNewUser] 注册用户失败,Error : %s", err)
 		return
 	}
+	fmt.Printf("插入数据：%v", ret.LastInsertId())
 
 	if LastInsertId, err := ret.LastInsertId(); nil == err {
 		fmt.Println("LastInsertId:", LastInsertId)

@@ -1,5 +1,5 @@
 app:
   consul:
     enabled: true
-    host: 127.0.0.1
+    host: 106.54.49.156
     port: 8500

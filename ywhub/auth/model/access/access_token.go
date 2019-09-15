@@ -17,7 +17,7 @@ var (
 	// tokenIDKeyPrefix tokenID 前缀
 	tokenIDKeyPrefix = "token:auth:id:"
 
-	tokenExpiredTopic = "mu.micro.book.topic.auth.tokenExpired"
+	tokenExpiredTopic = "ywhub.micro.api.v1.auth.topic.auth.tokenExpired"
 )
 
 // Subject token 持有者

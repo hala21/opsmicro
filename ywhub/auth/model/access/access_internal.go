@@ -16,7 +16,7 @@ func (s *service) createTokenClaims(subject *Subject) (m *jwt.StandardClaims, er
 		NotBefore: now.Unix(),
 		Id:        subject.ID,
 		IssuedAt:  now.Unix(),
-		Issuer:    "book.micro.mu",
+		Issuer:    "ywhub.micro.auth",
 		Subject:   subject.ID,
 	}
 

@@ -1,11 +1,11 @@
 app:
   redis:
     enabled: true
-    conn: 39.109.123.190:6379
+    conn: 106.54.49.156:6379
     dbNum: 8
     password:
     timeout: 3000
     sentinel:
       enabled: false
       master: bookMaster
-      nodes: 39.109.123.190:6379
+      nodes: 106.54.49.156:6379

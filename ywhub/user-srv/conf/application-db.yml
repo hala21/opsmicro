@@ -1,6 +1,6 @@
 app:
   mysql:
     enabled: true
-    url: leoli:Wg22cBwjF*@(39.109.123.190:3306)/ywhub?charset=utf8&parseTime=true&loc=Asia%2FShanghai
+    url: leo.li:Wg22cBwjF*@(106.54.49.156:3306)/ywhub?charset=utf8&parseTime=true&loc=Asia%2FShanghai
     maxIdleConnection: 100
     maxOpenConnection: 130
